@@ -6,7 +6,16 @@ public class MyDate {
     public static final String ERR_INVALID_MONTH = "Month value not valid";
     public static final String ERR_INVALID_DAY = "Day value not valid";
     public static final String ERR_INVALID_DATE = "Invalid date";
-
+    private int day = 0;
+    private Months month;
+    private int year = 0;
+    public  MyDate(int day, Months month, int year) {
+        setDay(day);
+        setMonth(month);
+        setYear(year);
+    }
+    public MyDate() {
+    }
     public enum Months {
         JANUARY(1),
         FEBRUARY(2),
@@ -33,5 +42,32 @@ public class MyDate {
                     return m;
             return null;
         }
+    }
+    public void setMonth(Months month) {
+        if(month == null)
+            throw new IllegalArgumentException(ERR_INVALID_MONTH);
+        if(this.day == 29 && month == Months.FEBRUARY && !thisYearIsLeap(this.year))
+            throw new IllegalArgumentException(ERR_INVALID_MONTH);
+        if(this.day > 29 && month == Months.FEBRUARY)
+            throw new IllegalArgumentException(ERR_INVALID_MONTH);
+        if(this.day == 31 && (month == Months.APRIL || month == Months.JUNE || month == Months.SEPTEMBER ||
+                month == Months.NOVEMBER))
+            throw new IllegalArgumentException(ERR_INVALID_MONTH);
+        this.month = month;
+    }
+    public void setDay(int day) {
+        if(day < 0 || day > 31)
+            throw new IllegalArgumentException(ERR_INVALID_DAY);
+        this.day = day;
+    }
+    public void setYear(int year) {
+        if((day == 29  && month == Months.FEBRUARY && !thisYearIsLeap(year)))
+            throw new IllegalArgumentException(ERR_INVALID_DATE);
+        this.year = year;
+    }
+    public boolean thisYearIsLeap(int year) {
+        if(year % 4 == 0 && year % 100 != 0 || year % 400 == 0)
+            return true;
+        return false;
     }
 }

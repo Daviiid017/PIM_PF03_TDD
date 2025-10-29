@@ -26,7 +26,6 @@ public class MyDateTest {
             Assertions.fail();
         }
     }
-
     @ParameterizedTest
     @ValueSource(ints = {0, 4, 400, 2000, 2004})
     public void myDateValidLeapYear(int year) {
@@ -70,7 +69,6 @@ public class MyDateTest {
         }
         Assertions.fail();
     }
-
     @Test
     public void myDateInvalidMonthChange2() {
         MyDate myDate;
