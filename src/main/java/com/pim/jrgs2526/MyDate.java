@@ -56,13 +56,28 @@ public class MyDate {
         this.month = month;
     }
     public void setDay(int day) {
-        if(day < 0 || day > 31)
+        if(day <= 0 || day > 31)
             throw new IllegalArgumentException(ERR_INVALID_DAY);
+        if(this.month != null) {
+            if ((this.month == Months.APRIL || this.month == Months.JUNE ||
+                    this.month == Months.SEPTEMBER || this.month == Months.NOVEMBER) && day > 30)
+                throw new IllegalArgumentException(ERR_INVALID_DAY);
+
+            if (this.month == Months.FEBRUARY && !thisYearIsLeap(this.year) && day > 28)
+                throw new IllegalArgumentException(ERR_INVALID_DAY);
+
+            if (this.month == Months.FEBRUARY && thisYearIsLeap(this.year) && day > 29)
+                throw new IllegalArgumentException(ERR_INVALID_DAY);
+        }
         this.day = day;
     }
     public void setYear(int year) {
-        if((day == 29  && month == Months.FEBRUARY && !thisYearIsLeap(year)))
-            throw new IllegalArgumentException(ERR_INVALID_DATE);
+        if((day == 29  && month == Months.FEBRUARY && !thisYearIsLeap(year))){
+            if (this.year == 0)
+                throw new IllegalArgumentException(ERR_INVALID_DATE);
+            else
+                throw new IllegalArgumentException(ERR_INVALID_YEAR);
+        }
         this.year = year;
     }
     public boolean thisYearIsLeap(int year) {
